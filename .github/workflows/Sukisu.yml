@@ -1,4 +1,4 @@
-name: KSU-Next
+name: SUKISU
 
 on:
   workflow_dispatch:
