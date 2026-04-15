@@ -3,10 +3,10 @@ name: Alexandra Kernel Build
 on:
   workflow_dispatch:
     inputs:
-      repository: { description: 'Repo', required: true, default: 'moonooen/grace' }
-      branch: { description: 'Branch', required: true, default: 'aosp-16' }
-      defconfig: { description: 'Defconfig', required: true, default: 'vendor/alioth_defconfig' }
-      kernelsu_branch: { description: 'KSU Branch', required: false, default: 'master' }
+      repository: { description: 'Repo', required: true, default: 'DooPrjkt/wind-kernel' }
+      branch: { description: 'Branch', required: true, default: 'wind-kernel_T' }
+      defconfig: { description: 'Defconfig', required: true, default: 'mido_defconfig' }
+      kernelsu_branch: { description: 'KSU Branch', required: false, default: 'dev' }
 
 jobs:
   build:
@@ -32,11 +32,11 @@ jobs:
         wget -qO- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/62cdcefa89e31af2d72c366e8b5ef8db84caea62/clang-r547379.tar.gz | tar -xz -C tc
         export PATH=$PWD/tc/bin:$PATH
         
-        curl -LSs "https://raw.githubusercontent.com/backslashxx/KernelSU/master/kernel/setup.sh" | bash -s ${{ github.event.inputs.kernelsu_branch }}
+        curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s ${{ github.event.inputs.kernelsu_branch }}
 
         export ARCH=arm64
-        export KBUILD_BUILD_USER="moonell"
-        export KBUILD_BUILD_HOST="stargaze"
+        export KBUILD_BUILD_USER="DooPrjkt"
+        export KBUILD_BUILD_HOST="github"
         ARGS="O=out ARCH=arm64 CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- LLVM=1 LLVM_IAS=1"
         
         make $ARGS ${{ github.event.inputs.defconfig }} 2>&1 | tee defconfig.log || true
@@ -61,8 +61,8 @@ jobs:
     - name: Telegram Notification
       if: always()
       run: |
-        TOKEN="jembut"
-        CHAT="pelernegro"
+        TOKEN="8082278726:AAGf2aFYyLPOu0K379xomfLUUJcex4uuKAo"
+        CHAT="-1003265091665"
         
         if [ -f "compile.log" ]; then
           curl -s -F document=@"compile.log" \
