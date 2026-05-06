@@ -3,9 +3,9 @@ name: KSU-Next
 on:
   workflow_dispatch:
     inputs:
-      repository: { description: 'Repo', required: true, default: 'Iky76/android_kernel_qcom_msm8953' }
-      branch: { description: 'Branch', required: true, default: 'lineage-20' }
-      defconfig: { description: 'Defconfig', required: true, default: 'vendor/mido-perf_defconfig' }
+      repository: { description: 'Repo', required: true, default: 'Iky76/android_kernel_xiaomi_mido' }
+      branch: { description: 'Branch', required: true, default: 'lineage-18.1' }
+      defconfig: { description: 'Defconfig', required: true, default: 'mido_defconfig' }
       kernelsu_branch: { description: 'KSU Branch', required: false, default: 'hookless' }
 
 jobs:
@@ -37,7 +37,8 @@ jobs:
         export ARCH=arm64
         export KBUILD_BUILD_USER="DooPrjkt"
         export KBUILD_BUILD_HOST="github"
-        ARGS="O=out ARCH=arm64 CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- LLVM=1 LLVM_IAS=1"
+        ARGS="O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip"
+
         
         make $ARGS ${{ github.event.inputs.defconfig }} 2>&1 | tee defconfig.log || true
         make -j$(nproc) $ARGS 2>&1 | tee compile.log || true
