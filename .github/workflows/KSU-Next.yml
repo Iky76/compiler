@@ -3,9 +3,9 @@ name: KSU-Next
 on:
   workflow_dispatch:
     inputs:
-      repository: { description: 'Repo', required: true, default: 'Iky76/android_kernel_qcom_msm8953' }
-      branch: { description: 'Branch', required: true, default: 'lineage-20' }
-      defconfig: { description: 'Defconfig', required: true, default: 'vendor/mido-perf_defconfig' }
+      repository: { description: 'Repo', required: true, default: 'Iky76/android_kernel_xiaomi_mido' }
+      branch: { description: 'Branch', required: true, default: 'lineage-18.1' }
+      defconfig: { description: 'Defconfig', required: true, default: 'vendor/mido_defconfig' }
       kernelsu_branch: { description: 'KSU Branch', required: false, default: 'hookless' }
 
 jobs:
