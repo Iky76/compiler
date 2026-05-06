@@ -42,9 +42,9 @@ jobs:
         make $ARGS ${{ github.event.inputs.defconfig }} 2>&1 | tee defconfig.log || true
         make -j$(nproc) $ARGS 2>&1 | tee compile.log || true
 
-        if [ -f out/arch/arm64/boot/Image ]; then
+        if [ -f out/arch/arm64/boot/Image.gz-dtb ]; then
           ZIP_NAME="Tesr ${{ env.BUILD_TIME }}.zip"
-          zip -j "$ZIP_NAME" out/arch/arm64/boot/Image out/arch/arm64/boot/dtbo.img 2>/dev/null || zip -j "$ZIP_NAME" out/arch/arm64/boot/Image
+          zip -j "$ZIP_NAME" out/arch/arm64/boot/Image.gz-dtb out/arch/arm64/boot/dtbo.img 2>/dev/null || zip -j "$ZIP_NAME" out/arch/arm64/boot/Image.gz-dtb
           echo "FINAL_ZIP=$ZIP_NAME" >> $GITHUB_ENV
         fi
 
