@@ -29,7 +29,7 @@ jobs:
 
         # Download AOSP Clang r450784d
         mkdir tc
-        wget -qO- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android13-release/clang-r450784d.tar.gz | tar -xz -C tc
+        git clone https://github.com/kdrag0n/proton-clang.git --depth=1 tc
         export PATH=$PWD/tc/bin:$PATH
         
         curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s ${{ github.event.inputs.kernelsu_branch }}
@@ -37,7 +37,7 @@ jobs:
         export ARCH=arm64
         export KBUILD_BUILD_USER="DooPrjkt"
         export KBUILD_BUILD_HOST="github"
-        ARGS="O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- LD='ld.lld -m aarch64elf' AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip"
+        ARGS="O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- LD=aarch64-linux-gnu-ld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip"
 
         
         make $ARGS ${{ github.event.inputs.defconfig }} 2>&1 | tee defconfig.log || true
